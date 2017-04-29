@@ -1,0 +1,5 @@
+docker-plugin
+
+docker build -t aman/jenkinsslavego .
+
+docker run -d --name jenkinsslavego -p 2222:22 aman/jenkinsslavego
