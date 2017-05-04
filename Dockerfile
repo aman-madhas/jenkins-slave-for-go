@@ -2,15 +2,13 @@ FROM alpine:latest
 
 RUN apk add --no-cache openssh man man-pages
 
-#RUN mkdir -p /var/run/sshd
-
-RUN adduser -D jenkins
+RUN mkdir -p /var/run/sshd
 
 RUN ssh-keygen -A
 
-USER jenkins
+RUN adduser -D jenkins
 
-RUN ssh-keygen -t rsa -N "" -f my.key
+RUN echo "jenkins:jenkins" | chpasswd
 
 # Standard SSH port
 EXPOSE 22
