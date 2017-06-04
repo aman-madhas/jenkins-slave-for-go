@@ -4,6 +4,9 @@ docker build -t aman/jenkinsslavego .
 
 docker run -d --name jenkinsslavego -p 2222:22 aman/jenkinsslavego
 
+docker run -d --name jenkinsslavego -p 2222:22 -v //k/sandbox/docker-images/jenkins-slave-for-go/id_rsa.pub:/home/jenkins/.ssh/authorized_keys aman/jenkinsslavego
+
 docker exec -it jenkinsslavego /bin/sh
 
 ssh jenkins@192.168.99.100 -p 2222
+
