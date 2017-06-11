@@ -1,4 +1,4 @@
-docker-plugin
+docker-plugin workflow-multibranch github-branch-source workflow-aggregator jclouds-jenkins
 
 docker build -t aman/jenkinsslavego .
 
@@ -10,3 +10,42 @@ docker exec -it jenkinsslavego /bin/sh
 
 ssh jenkins@192.168.99.100 -p 2222
 
+#node {
+#  withEnv(["PATH+GO=/usr/lib/go/bin", "GOPATH=${WORKSPACE}"]) {
+#    try {
+#      stage('Build') {
+#        dir("src/bitbucket.org/a_madhas/rest-api") {
+#          // ? do I need this
+#          sh "go install"
+#          sh "go build"
+#        }
+#      }
+#      stage('Test') {
+#        dir("src/bitbucket.org/a_madhas/rest-api") {
+#          sh "mkdir -p test-reports"
+#          sh "2>&1 go test ./lib -v -coverprofile=test-reports/coverage.profile | tee test-reports/go-test-results.out"
+#          sh "go2xunit -fail -input test-reports/go-test-results.out -output test-reports/tests.xml"
+#          sh "go tool cover -func=test-reports/coverage.profile -o=test-reports/coverage.out"
+#          sh "coverprofile-export -inputFileName=test-reports/coverage.out -outputFileName=test-reports/coverage.html -mode=html"
+#        }
+#        step([$class: 'JUnitResultArchiver', testResults: 'src/bitbucket.org/a_madhas/rest-api/test-reports/tests.xml'])
+#        publishHTML (target: [
+#          allowMissing: false,
+#          alwaysLinkToLastBuild: false,
+#          keepAll: true,
+#          reportDir: 'src/bitbucket.org/a_madhas/rest-api/test-reports',
+#          reportFiles: 'coverage.html',
+#          reportName: "Code Coverage"
+#          ])
+#      }
+#      currentBuild.result = 'SUCCESS'
+#    } catch (error) {
+#      currentBuild.result = 'FAILURE'
+#      throw error
+#    } finally {
+#      stage('Clean') {
+#        sh "rm -rf ./*"
+#      }
+#    }
+#  }
+#}
